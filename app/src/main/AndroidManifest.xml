@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamProject">
         <activity
+            android:name=".navigation.PhotoCommentFragment"
+            android:exported="false" />
+        <activity
             android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity

@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.teamproject.databinding.ActivityLoginBinding
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class LoginActivity : AppCompatActivity() {
     var auth : FirebaseAuth? = null
-    var googleSignInClient : GoogleSignInAccount? = null
     val binding = ActivityLoginBinding.inflate(layoutInflater)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,34 +17,17 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.signin.setOnClickListener {
-            signInAndSignUp()
+            signInEmail()
         }
 
         binding.signup.setOnClickListener {
             startActivity(Intent(this, CreateAccountActivity::class.java))
         }
-    }
-    fun signInAndSignUp() {
-        auth?.createUserWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString())
-            ?.addOnCompleteListener {
-                task ->
-                if(task.isSuccessful) {
-                    //Create an Account
-                    transitionPage1(task.result?.user)
-                }
-                else if(task.exception?.message.isNullOrEmpty()) {
-                    //Login Error
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-                }
-                else {
-                    //Login Success!!!
-                    signInEmail()
-                }
-            }
+
     }
 
     fun signInEmail() {
-        auth?.createUserWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString())
+        auth?.signInWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString())
             ?.addOnCompleteListener {
                     task ->
                 if(task.isSuccessful) {

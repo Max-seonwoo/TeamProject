@@ -6,29 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/detail_appbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:width="match_parent"
-            android:height="wrap_content">
+        android:layout_height="35dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <ImageView
-                android:width="match_parent"
-                android:height="wrap_content"
-                android:src="@drawable/simple_script"/>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/text"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/toolbar_division"
         android:orientation="horizontal"
         android:background="@color/colorDivision"
-        android:layout_below="@+id/detail_appbar"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
