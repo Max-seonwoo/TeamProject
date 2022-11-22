@@ -18,11 +18,7 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 
 class AlarmFragment : Fragment(){
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_alarm, container, false)
         view.alarmfragment_recyclerview.adapter = AlarmRecyclerViewAdapter()
         view.alarmfragment_recyclerview.layoutManager = LinearLayoutManager(activity)
@@ -30,7 +26,6 @@ class AlarmFragment : Fragment(){
     }
 
     inner class AlarmRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-
         var alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
 
         init {

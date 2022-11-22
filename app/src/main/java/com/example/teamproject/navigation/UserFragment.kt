@@ -18,6 +18,7 @@ import com.example.teamproject.LoginActivity
 import com.example.teamproject.MainActivity
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentUserBinding
+import com.example.teamproject.navigation.model.AlarmDTO
 import com.example.teamproject.navigation.model.ContentDTO
 import com.example.teamproject.navigation.model.FollowDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -142,7 +143,7 @@ class UserFragment : Fragment() {
                 followDTO = FollowDTO()
                 followDTO!!.followerCount = 1
                 followDTO!!.followers[currentUserUid!!] = true
-
+                followerAlarm(uid!!)
                 transaction.set(tsDocFollower,followDTO!!)
                 return@runTransaction
             }
@@ -155,10 +156,21 @@ class UserFragment : Fragment() {
                 //add my follower when I don't follow the third person
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
             }
             transaction.set(tsDocFollower,followDTO!!)
             return@runTransaction
         }
+    }
+
+    fun followerAlarm(destinationUid: String) {
+        val alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.kind = 2
+        alarmDTO.timestamp = System.currentTimeMillis()
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     fun getProfileImage() {

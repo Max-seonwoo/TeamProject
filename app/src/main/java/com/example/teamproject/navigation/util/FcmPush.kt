@@ -46,7 +46,7 @@ class FcmPush {
                     }
 
                     override fun onResponse(call: Call, response: Response) {
-                        println(response.body().string())
+                        println(response.body()?.string())
                     }
                 })
             }

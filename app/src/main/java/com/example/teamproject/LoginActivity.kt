@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class LoginActivity : AppCompatActivity() {
     var auth : FirebaseAuth? = null
-    val binding = ActivityLoginBinding.inflate(layoutInflater)
+    val binding  = ActivityLoginBinding.inflate(layoutInflater)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

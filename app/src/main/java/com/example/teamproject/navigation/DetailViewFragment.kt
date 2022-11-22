@@ -19,16 +19,16 @@ import com.example.teamproject.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-//import kotlinx.android.synthetic.main.activity_add_diary.view.*
+import kotlinx.android.synthetic.main.activity_add_diary.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
-//import kotlinx.android.synthetic.main.item_comment.view.*
+import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
-    val binding = FragmentDetailBinding.inflate(layoutInflater)
+    val binding by lazy { FragmentDetailBinding.inflate(layoutInflater) }
     var firestore: FirebaseFirestore? = null
     var uid = FirebaseAuth.getInstance().currentUser?.uid
     var currentUserUid: String? = null
@@ -132,7 +132,6 @@ class DetailViewFragment : Fragment() {
                 startActivity(intent)
             }
         }
-
         override fun getItemCount(): Int {
             return contentDTOs.size
         }
@@ -165,8 +164,7 @@ class DetailViewFragment : Fragment() {
             alarmDTO.timestamp = System.currentTimeMillis()
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
-            var message =
-                FirebaseAuth.getInstance()?.currentUser?.email + getString(R.string.alarm_favorite)
+            var message = FirebaseAuth.getInstance()?.currentUser?.email + getString(R.string.alarm_favorite)
             FcmPush.instance.sendMessage(destinationUid, "Dear Diary", message)
         }
 
