@@ -12,21 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.teamproject.R
+import com.example.teamproject.databinding.FragmentDetailBinding
 import com.example.teamproject.navigation.model.AlarmDTO
 import com.example.teamproject.navigation.model.ContentDTO
 import com.example.teamproject.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.activity_add_diary.view.*
+//import kotlinx.android.synthetic.main.activity_add_diary.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
-import kotlinx.android.synthetic.main.item_comment.view.*
+//import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
+    val binding = FragmentDetailBinding.inflate(layoutInflater)
     var firestore: FirebaseFirestore? = null
     var uid = FirebaseAuth.getInstance().currentUser?.uid
     var currentUserUid: String? = null
@@ -38,8 +40,9 @@ class DetailViewFragment : Fragment() {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
-//		currentUserUid = arguments?.getString("diary")
-        view.detailviewfra  gment_recyclerview.adapter = DetailViewRecyclerViewAdapter()
+        currentUserUid = arguments?.getString("diary")
+
+        view.detailviewfragment_recyclerview.adapter = DetailViewRecyclerViewAdapter()
         view.detailviewfragment_recyclerview.layoutManager = LinearLayoutManager(activity)
 
         return view
@@ -51,7 +54,7 @@ class DetailViewFragment : Fragment() {
         var contentUidList: ArrayList<String> = arrayListOf()
 
         init {
-            firestore?.collection("diary")?.orderBy("timestamp", Query.Direction.DESCENDING)
+            firestore?.collection("images")?.orderBy("timestamp", Query.Direction.DESCENDING)
                 ?.addSnapshotListener { value, error ->
                     contentDTOs.clear()
                     contentUidList.clear()
@@ -67,8 +70,7 @@ class DetailViewFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
+            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
             return CustomViewHolder(view)
         }
 
