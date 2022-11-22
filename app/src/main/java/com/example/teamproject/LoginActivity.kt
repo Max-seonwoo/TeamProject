@@ -23,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
         binding.signup.setOnClickListener {
             startActivity(Intent(this, CreateAccountActivity::class.java))
         }
-
     }
 
     fun signInEmail() {
@@ -44,9 +43,12 @@ class LoginActivity : AppCompatActivity() {
     fun transitionPage1(user:FirebaseUser?) {
         if(user != null) {
             startActivity(Intent(this, MainActivity::class.java))
+            finish() //LoginActivity's terminated and MainActivity starts
         }
     }
-
-
+    override fun onStart() { //automatic login function
+        super.onStart()
+        transitionPage1(auth?.currentUser)
+    }
 
 }

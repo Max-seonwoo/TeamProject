@@ -73,7 +73,7 @@
         android:backgroundTint="@color/colorAccent"
         android:text="Comfirm"
         app:layout_constraintBaseline_toBaselineOf="@+id/join_email"
-        app:layout_constraintEnd_toEndssssssssssssssssssssssssssssssssssssssssOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.151"
         app:layout_constraintStart_toEndOf="@+id/join_email" />
 
@@ -85,9 +85,10 @@
         android:backgroundTint="@color/colorAccent"
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightof="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/join_button"
-        tools:layout_editor_absoluteY="494dp" />
+        tools:layout_editor_absoluteY="494dp"
+        tools:ignore="MissingConstraints"/>
 
     <Button
         android:id="@+id/join_button"

@@ -6,17 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="35dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/toolbar_btn_back"
+                android:src="@drawable/finger"/>
+
+            <ImageView
+                android:id="@+id/toolbar_title_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/text"/>
+                android:src="@drawable/text" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -44,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
-     <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
