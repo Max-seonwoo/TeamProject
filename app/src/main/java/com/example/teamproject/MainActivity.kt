@@ -11,6 +11,7 @@ import com.example.teamproject.navigation.AlarmFragment
 import com.example.teamproject.navigation.DetailViewFragment
 import com.example.teamproject.navigation.GridFragment
 import com.example.teamproject.navigation.UserFragment
+import com.example.teamproject.navigation.util.FcmPush
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
 
         //ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        bottom_navigation.selectedItemId = R.id.action_home
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         setToolbarDefault()
@@ -69,6 +72,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding.toolbarBtnBack.visibility = View.GONE
         binding.toolbarTitleImage.visibility = View.VISIBLE
     }
+
+    override fun onStop() {
+        super.onStop()
+        FcmPush.instance.sendMessage("AIzaSyCKATaKClYBUqnsPgUp8VyHd_1EcDTf61I", "hi", "bye")
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == RESULT_OK){

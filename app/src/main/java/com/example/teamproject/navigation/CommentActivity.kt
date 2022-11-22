@@ -59,8 +59,7 @@ class CommentActivity : AppCompatActivity() {
 
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
-        var message =
-            FirebaseAuth.getInstance()?.currentUser?.email + " " + getString(R.string.alarm_comment)
+        var message = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_comment)
         FcmPush.instance.sendMessage(destinationUid, "Dear Diary", message)
     }
 

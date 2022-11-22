@@ -19,7 +19,7 @@ import com.example.teamproject.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.activity_add_diary.view.*
+//import kotlinx.android.synthetic.main.activity_add_diary.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
@@ -79,17 +79,20 @@ class DetailViewFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewholder = (holder as CustomViewHolder).itemView
 
+            //userId
             viewholder.detailviewitem_profile_textview.text = contentDTOs!![position].userId
 
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl)
-                .into(viewholder.detailviewitem_imageview_content)
+            //Image
+            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_imageview_content)
 
-            viewholder.detailviewitem_explain_textview.text = contentDTOs!![position].diary
+            //Explain of content
+            viewholder.detailviewitem_explain_textview.text = contentDTOs!![position].explain
 
-            viewholder.music.text = "추천 음악: " + contentDTOs!![position].music
+            //Likes
+            viewholder.detailviewitem_favoritecounter_textview.text = "Likes" + contentDTOs!![position].favoriteCount
 
-            viewholder.detailviewitem_favoritecounter_textview.text =
-                "Likes " + contentDTOs!![position].favoriteCount
+            //ProfileImage
+            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_imageview_content)
 
             viewholder.detailviewitem_favorite_imageview.setOnClickListener {
                 favoriteEvent(position)
@@ -110,9 +113,9 @@ class DetailViewFragment : Fragment() {
 
             if (contentDTOs!![position].favorites.containsKey(uid)) {
                 // 내 uid가 포함되어 있을 경우, 스크랩 한 경우
-                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.star_full)
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.finger)
             } else {
-                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.star)
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.finger)
             }
 
             // 상대방 프사 클릭 시 상대방 정보로 넘어감
