@@ -7,10 +7,12 @@ import android.widget.Toast
 import com.example.teamproject.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
     var auth : FirebaseAuth? = null
-    val binding  = ActivityLoginBinding.inflate(layoutInflater)
+    val binding by lazy {ActivityLoginBinding.inflate(layoutInflater)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

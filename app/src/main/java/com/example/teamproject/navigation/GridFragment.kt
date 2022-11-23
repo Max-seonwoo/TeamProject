@@ -16,7 +16,7 @@ import com.example.teamproject.R
 import com.example.teamproject.navigation.model.ContentDTO
 import com.example.teamproject.databinding.FragmentGridBinding
 import com.google.firebase.firestore.FirebaseFirestore
-//import kotlinx.android.synthetic.main.fragment_grid.view.*
+import kotlinx.android.synthetic.main.fragment_grid.view.*
 
 class GridFragment : Fragment(){
     val binding = FragmentGridBinding.inflate(layoutInflater)
@@ -34,7 +34,7 @@ class GridFragment : Fragment(){
         var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
 
         init {
-            firestore?.collection("diary")?.addSnapshotListener { querySnapshot, firebaseFirestore ->
+            firestore?.collection("images")?.addSnapshotListener { querySnapshot, firebaseFirestore ->
                 //Some times, This code return null of querySnapshot when it signout
                 if (querySnapshot == null) return@addSnapshotListener
 

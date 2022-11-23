@@ -190,7 +190,7 @@ class UserFragment : Fragment() {
         var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
 
         init {
-            firestore?.collection("diary")?.whereEqualTo("uid", uid)
+            firestore?.collection("images")?.whereEqualTo("uid", uid)
                 ?.addSnapshotListener { value, error ->
                     if (value == null) return@addSnapshotListener
 
