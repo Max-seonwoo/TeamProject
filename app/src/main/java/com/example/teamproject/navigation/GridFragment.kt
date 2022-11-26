@@ -19,11 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_grid.view.*
 
 class GridFragment : Fragment(){
-    val binding = FragmentGridBinding.inflate(layoutInflater)
+    val binding by lazy {FragmentGridBinding.inflate(layoutInflater)}
     var firestore : FirebaseFirestore? = null
     var fragmentView : View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-         fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_grid, container, false)
+        fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_grid, container, false)
         firestore = FirebaseFirestore.getInstance()
         binding.gridfragmentRecyclerView.adapter = UserFragmentRecyclerViewAdapter()
         binding.gridfragmentRecyclerView.layoutManager = GridLayoutManager(activity, 3)

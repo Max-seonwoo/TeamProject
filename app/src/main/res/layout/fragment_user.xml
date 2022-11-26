@@ -16,7 +16,7 @@
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="-2dp"
-            android:src="@drawable/twitter" />
+            android:src="@drawable/profile" />
 
         <Button
             android:id="@+id/account_btn_follow_signout"

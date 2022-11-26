@@ -27,7 +27,7 @@ class PhotoCommentFragment : AppCompatActivity() {
     var PICK_IMAGE_FROM_ALBUM = 0
     var storage : FirebaseStorage? = null
     var photoUri : Uri? = null
-    val binding = ActivityPhotoCommentFragmentBinding.inflate(layoutInflater)
+    val binding by lazy {ActivityPhotoCommentFragmentBinding.inflate(layoutInflater)}
     var auth : FirebaseAuth? = null
     var firestore : FirebaseFirestore? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class PhotoCommentFragment : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == PICK_IMAGE_FROM_ALBUM) {
             if(resultCode == Activity.RESULT_OK) {
@@ -63,9 +63,9 @@ class PhotoCommentFragment : AppCompatActivity() {
                 finish()
             }
         }
-    }
+    }*/
 
-    fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
+    /*fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
         imageRef?.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
             val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
             view.setImageBitmap(bmp)
@@ -84,7 +84,7 @@ class PhotoCommentFragment : AppCompatActivity() {
                 Snackbar.make(binding.root, "Upload completed.", Snackbar.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 
     fun contentUpload() {
         //Make filename

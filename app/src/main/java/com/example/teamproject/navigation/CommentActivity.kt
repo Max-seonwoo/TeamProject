@@ -40,7 +40,7 @@ class CommentActivity : AppCompatActivity() {
             comment.comment = binding.commentEditMessage.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
-            FirebaseFirestore.getInstance().collection("diary").document(contentUid!!)
+            FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
                 .collection("comments").document().set(comment)
 
             commentAlarm(destinationUid!!, binding.commentEditMessage.text.toString())
@@ -59,8 +59,8 @@ class CommentActivity : AppCompatActivity() {
 
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
-        var message = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_comment)
-        FcmPush.instance.sendMessage(destinationUid, "Dear Diary", message)
+        var msg = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_comment) + "of" + message
+        FcmPush.instance.sendMessage(destinationUid, "notifications", msg)
     }
 
     inner class CommentRecyclerViewAdatper : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -69,7 +69,7 @@ class CommentActivity : AppCompatActivity() {
 
         init {
             FirebaseFirestore.getInstance()
-                .collection("diary")
+                .collection("images")
                 .document(contentUid!!)
                 .collection("comments")
                 .orderBy("timestamp", Query.Direction.DESCENDING)

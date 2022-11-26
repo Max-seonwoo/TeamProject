@@ -74,7 +74,8 @@ class AlarmFragment : Fragment(){
                     view.commentviewitem_textview_profile.text = str_0
                 }
             }
-            view.commentviewitem_textview_comment.visibility = View.INVISIBLE
+            //view.commentviewitem_textview_comment.visibility = View.INVISIBLE
+            view.commentviewitem_textview_comment.visibility = View.VISIBLE
         }
 
         override fun getItemCount(): Int {

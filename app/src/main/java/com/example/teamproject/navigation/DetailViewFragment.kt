@@ -19,7 +19,6 @@ import com.example.teamproject.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-//import kotlinx.android.synthetic.main.activity_add_diary.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
@@ -40,7 +39,7 @@ class DetailViewFragment : Fragment() {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
-        currentUserUid = arguments?.getString("diary")
+        currentUserUid = arguments?.getString("images")
 
         view.detailviewfragment_recyclerview.adapter = DetailViewRecyclerViewAdapter()
         view.detailviewfragment_recyclerview.layoutManager = LinearLayoutManager(activity)
@@ -60,7 +59,7 @@ class DetailViewFragment : Fragment() {
                     contentUidList.clear()
                     if (value == null) return@addSnapshotListener
 
-                    for (snapshot in value!!.documents) {
+                    for (snapshot in value.documents) {
                         var item = snapshot.toObject(ContentDTO::class.java)
                         contentDTOs.add(item!!)
                         contentUidList.add(snapshot.id)
@@ -80,19 +79,19 @@ class DetailViewFragment : Fragment() {
             var viewholder = (holder as CustomViewHolder).itemView
 
             //userId
-            viewholder.detailviewitem_profile_textview.text = contentDTOs!![position].userId
+            viewholder.detailviewitem_profile_textview.text = contentDTOs[position].userId
 
             //Image
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_imageview_content)
+            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewholder.detailviewitem_imageview_content)
 
             //Explain of content
-            viewholder.detailviewitem_explain_textview.text = contentDTOs!![position].explain
+            viewholder.detailviewitem_explain_textview.text = contentDTOs[position].explain
 
             //Likes
-            viewholder.detailviewitem_favoritecounter_textview.text = "Likes" + contentDTOs!![position].favoriteCount
+            viewholder.detailviewitem_favoritecounter_textview.text = "Likes" + contentDTOs[position].favoriteCount
 
             //ProfileImage
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_imageview_content)
+            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewholder.detailviewitem_imageview_content)
 
             viewholder.detailviewitem_favorite_imageview.setOnClickListener {
                 favoriteEvent(position)
@@ -113,9 +112,9 @@ class DetailViewFragment : Fragment() {
 
             if (contentDTOs!![position].favorites.containsKey(uid)) {
                 // 내 uid가 포함되어 있을 경우, 스크랩 한 경우
-                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.finger)
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.thumb)
             } else {
-                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.finger)
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.thumb)
             }
 
             // 상대방 프사 클릭 시 상대방 정보로 넘어감
@@ -128,8 +127,8 @@ class DetailViewFragment : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.main_content, fragment)?.commit()
             }
-            viewholder.detailviewitem_comment_imageview.setOnClickListener { v ->
-                var intent = Intent(v.context, CommentActivity::class.java)
+            viewholder.detailviewitem_comment_imageview.setOnClickListener { view ->
+                var intent = Intent(view.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
                 intent.putExtra("destinationUid", contentDTOs[position].uid)
                 startActivity(intent)
@@ -140,18 +139,18 @@ class DetailViewFragment : Fragment() {
         }
 
         fun favoriteEvent(position: Int) {
-            var tsDoc = firestore?.collection("diary")?.document(contentUidList[position])
+            var tsDoc = firestore?.collection("images")?.document(contentUidList[position])
             firestore?.runTransaction { transaction ->
                 var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
 
                 if (contentDTO!!.favorites.containsKey(uid)) {
                     // 스크랩 되어있어서 클릭하면 취소
-                    contentDTO?.favoriteCount = contentDTO?.favoriteCount - 1
-                    contentDTO?.favorites.remove(uid)
+                    contentDTO.favoriteCount = contentDTO.favoriteCount - 1
+                    contentDTO.favorites.remove(uid)
                 } else {
                     // 스크랩 안되어 있어서 클릭하면 스크랩
-                    contentDTO?.favoriteCount = contentDTO?.favoriteCount + 1
-                    contentDTO?.favorites[uid!!] = true
+                    contentDTO.favoriteCount = contentDTO.favoriteCount + 1
+                    contentDTO.favorites[uid!!] = true
                     favoriteAlarm(contentDTOs[position].uid!!)
                 }
                 transaction.set(tsDoc, contentDTO)
@@ -167,8 +166,8 @@ class DetailViewFragment : Fragment() {
             alarmDTO.timestamp = System.currentTimeMillis()
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
-            var message = FirebaseAuth.getInstance()?.currentUser?.email + getString(R.string.alarm_favorite)
-            FcmPush.instance.sendMessage(destinationUid, "Dear Diary", message)
+            var message = FirebaseAuth.getInstance().currentUser?.email + getString(R.string.alarm_favorite)
+            FcmPush.instance.sendMessage(destinationUid, "notifications", message)
         }
 
     }

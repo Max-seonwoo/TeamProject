@@ -9,21 +9,18 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="35dp">
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="𝓓𝓮𝓪𝓻 𝓓𝓲𝓪𝓻𝔂"
-            android:textColor="@color/black"
-            android:textSize="35sp" />
+            android:src="@drawable/text"/>
     </androidx.appcompat.widget.Toolbar>
-
     <LinearLayout
         android:id="@+id/toolbar_division"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/my_toolbar"
         android:background="@color/colorDivision"
         android:orientation="horizontal" />
 
@@ -32,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/comment_edit_message"
-        android:layout_below="@id/my_toolbar"
+        android:layout_below="@id/toolbar_division"
         android:layout_marginLeft="10dp"
         tools:listitem="@layout/item_comment" />
 
@@ -43,6 +40,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
+        android:backgroundTint="@color/colorAccent"
         android:labelFor="@id/comment_recyclerview"
         android:text="@string/send" />
 

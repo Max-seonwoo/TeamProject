@@ -56,17 +56,13 @@ class UserFragment : Fragment() {
         } else {
             binding.accountBtnFollowSignout.text = getString(R.string.follow)
             var mainactivity = (activity as MainActivity)
-            //mainactivity?.toolbar_username?.text = arguments?.getString("userId")
+            mainactivity.binding.toolbarUsername.text = arguments?.getString("userId")
             mainactivity.binding.toolbarBtnBack.setOnClickListener {
                 mainactivity.binding.bottomNavigation.selectedItemId = R.id.action_home
             }
             mainactivity.binding.toolbarTitleImage.visibility = View.GONE
-            //mainactivity?.toolbar_username?.visibility = View.VISIBLE
+            mainactivity.binding.toolbarUsername.visibility = View.VISIBLE
             mainactivity.binding.toolbarBtnBack.visibility = View.VISIBLE
-            binding.accountBtnFollowSignout.setOnClickListener {
-                requestFollow()
-            }
-
             binding.accountBtnFollowSignout.setOnClickListener {
                 requestFollow()
             }
@@ -174,14 +170,14 @@ class UserFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
         var message = auth?.currentUser?.email + getString(R.string.alarm_follow )
-        FcmPush.instance.sendMessage(destinationUid, "Dear Diary", message)
+        FcmPush.instance.sendMessage(destinationUid, "notifications", message)
     }
 
     fun getProfileImage() {
         firestore?.collection("profileImages")?.document(uid!!)?.addSnapshotListener { value, error ->
             if (value == null) return@addSnapshotListener
             if (value.data != null) {
-                var url = value?.data!!["image"]
+                var url = value.data!!["images"]
                 Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(binding.accountIvProfile)
             }
         }

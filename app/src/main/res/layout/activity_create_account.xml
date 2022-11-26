@@ -32,8 +32,8 @@
 
     <EditText
         android:id="@+id/join_email"
-        android:layout_width="141dp"
-        android:layout_height="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="E-Mail"
@@ -65,17 +65,6 @@
         app:layout_constraintBottom_toTopOf="@+id/join_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/check_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Comfirm"
-        app:layout_constraintBaseline_toBaselineOf="@+id/join_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toEndOf="@+id/join_email" />
 
     <Button
         android:id="@+id/delete"

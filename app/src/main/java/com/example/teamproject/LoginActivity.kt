@@ -3,6 +3,7 @@ package com.example.teamproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.teamproject.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -19,7 +20,9 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.signin.setOnClickListener {
-            signInEmail()
+            val email = binding.email.text.toString()
+            val password = binding.password.text.toString()
+            signInEmail(email, password)
         }
 
         binding.signup.setOnClickListener {
@@ -27,17 +30,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun signInEmail() {
-        auth?.signInWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString())
-            ?.addOnCompleteListener {
-                    task ->
-                if(task.isSuccessful) {
+    fun signInEmail(email: String, password: String) {
+        Firebase.auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) {
+                if(it.isSuccessful) {
                     //Login Success
-                    transitionPage1(task.result?.user)
-                }
-                else {
-                    //show the error message
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+                    transitionPage1(it.result?.user)
+                } else { //show the error message
+                    Log.w("LoginActivity", "signInWithEmail", it.exception)
+                    Toast.makeText(this, it.exception?.message, Toast.LENGTH_LONG).show()
                 }
             }
     }

@@ -15,7 +15,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_margin="7.5dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/profile" />
 
         <TextView
             android:id="@+id/detailviewitem_profile_textview"
@@ -75,18 +75,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/music"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/detailviewitem_explain_textview"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="35dp"
-                    android:text="detailviewitem_music" />
-
             </RelativeLayout>
-
         </LinearLayout>
 
 
@@ -100,23 +89,24 @@
                 android:id="@+id/detailviewitem_favorite_imageview"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/twitter" />
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/thumb" />
 
             <ImageView
                 android:id="@+id/detailviewitem_comment_imageview"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/twitter" />
+                android:src="@drawable/document" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/detailviewitem_favoritecounter_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="like 0"
-            android:layout_below="@id/diary_main"/>
+            android:layout_below="@id/diary_main"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/initiate_like" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -52,6 +52,9 @@
     <string name="upload_success">Upload success</string>
     <string name="upload_fail">Upload fail</string>
 
+    <!-- Item Detail -->
+    <string name="initiate_like">Like 0</string>
+
     <!-- Toolbar -->
     <string name="back">Back</string>
     <string name="modify">hello</string>

@@ -21,7 +21,17 @@
                 android:layout_height="35dp"
                 android:layout_alignParentLeft="true"
                 android:id="@+id/toolbar_btn_back"
-                android:src="@drawable/finger"/>
+                android:src="@drawable/back"/>
+
+            <TextView
+                android:id="@+id/toolbar_username"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/toolbar_btn_back"
+                android:gravity="center"
+                android:text="UserID"
+                android:textColor="@color/colorNavIcon"
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/toolbar_title_image"
@@ -60,6 +70,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/main_bottom_navigation" />
-
 </RelativeLayout>
