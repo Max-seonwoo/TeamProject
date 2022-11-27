@@ -116,6 +116,11 @@ class UserFragment : Fragment() {
                         return@continueWithTask storageRef.downloadUrl
                     }.addOnSuccessListener {
                         contentDTO?.imageUrl = it.toString()
+                        contentDTO?.uid = auth?.currentUser?.uid
+                        contentDTO?.uid?.let {
+                            firestore?.collection("users")
+                                ?.document(it)?.set(contentDTO!!)
+                        }
                     }
                     getProfileImage()
                 }
