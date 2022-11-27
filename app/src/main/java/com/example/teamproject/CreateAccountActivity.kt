@@ -38,12 +38,26 @@ class CreateAccountActivity : AppCompatActivity() {
     fun signInAndSignUp(email: String, password: String) {
         Firebase.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
-                if(it.isSuccessful) {
-                    Toast.makeText(this, "Create an account", Toast.LENGTH_SHORT).show()
-                    //val user = auth?.currentUser
-                    transitionPage2(it.result?.user)
-                    //finish()
-                } else if(it.exception?.message.isNullOrEmpty() == false) {
+                /*if(binding1.joinPassword.text.toString().equals(binding1.joinPwck.text.toString())) {
+                    if(it.isSuccessful) {
+                        Toast.makeText(this, "Created an account", Toast.LENGTH_SHORT).show()
+                        //val user = auth?.currentUser
+                        transitionPage2(it.result?.user)
+                        //finish()
+                    }
+                }*/
+                if(binding1.joinPassword.text.toString().equals(binding1.joinPwck.text.toString())) {
+                    if(it.isSuccessful) {
+                        Toast.makeText(this, "Created an account", Toast.LENGTH_SHORT).show()
+                        //val user = auth?.currentUser
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        //finish()
+                    }
+                }
+                if(!binding1.joinPassword.text.toString().equals(binding1.joinPwck.text.toString())){
+                    Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                }
+                else if(it.exception?.message.isNullOrEmpty() == false) {
                     Toast.makeText(this, it.exception?.message, Toast.LENGTH_LONG).show()
                 }
                 else {
@@ -55,11 +69,11 @@ class CreateAccountActivity : AppCompatActivity() {
             }
     }
 
-    fun transitionPage2(user: FirebaseUser?) {
+    /*fun transitionPage2(user: FirebaseUser?) {
         if(user != null) {
             startActivity(Intent(this, LoginActivity::class.java))
         }
-    }
+    }*/
     /*fun signInAndSignUp() {
         auth?.createUserWithEmailAndPassword(binding2.email.text.toString(), binding2.password.text.toString())
             ?.addOnCompleteListener {

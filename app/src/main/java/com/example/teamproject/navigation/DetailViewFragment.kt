@@ -110,7 +110,7 @@ class DetailViewFragment : Fragment() {
                     }
                 }
 
-            if (contentDTOs!![position].favorites.containsKey(uid)) {
+            if (contentDTOs[position].favorites.containsKey(uid)) {
                 // 내 uid가 포함되어 있을 경우, 스크랩 한 경우
                 viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.thumb)
             } else {
@@ -124,9 +124,9 @@ class DetailViewFragment : Fragment() {
                 bundle.putString("destinationUid", contentDTOs[position].uid)
                 bundle.putString("userId", contentDTOs[position].userId)
                 fragment.arguments = bundle
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.main_content, fragment)?.commit()
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
             }
+
             viewholder.detailviewitem_comment_imageview.setOnClickListener { view ->
                 var intent = Intent(view.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])

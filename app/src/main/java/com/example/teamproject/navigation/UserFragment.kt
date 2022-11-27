@@ -1,12 +1,20 @@
 package com.example.teamproject.navigation
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,6 +32,7 @@ import com.example.teamproject.navigation.model.FollowDTO
 import com.example.teamproject.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class UserFragment : Fragment() {
     val binding = FragmentUserBinding.inflate(layoutInflater)
@@ -32,6 +41,9 @@ class UserFragment : Fragment() {
     var uid: String? = null
     var auth: FirebaseAuth? = null
     var currentUserUid: String? = null //identify the id, if the id's mine or not(others)
+    var storage = FirebaseStorage.getInstance()
+    var storageRef = storage.reference.child("images").child("imageName")
+    var contentDTO: ContentDTO? = null
 
     companion object {
         var PICK_PROFILE_FROM_ALBUM = 10
@@ -43,6 +55,7 @@ class UserFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         currentUserUid = auth?.currentUser?.uid  //identify the id, if the id's mine or not(others)
+
 
         if (uid == currentUserUid) { //if user's id identical with current user's id
             // My page
@@ -71,20 +84,47 @@ class UserFragment : Fragment() {
         binding.accountRecyclerview.adapter = UserFragmentRecyclerViewAdapter()
         binding.accountRecyclerview.layoutManager = GridLayoutManager(requireActivity(), 2)
 
+        val activityLauncher = activityResultLauncher()
+
         binding.accountRecyclerview.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
-            activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
+            activityLauncher.launch(photoPickerIntent) //ActivityResultLauncher
+            //photoPickerIntent.type = "image/*"
+            //activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
         }
 
-        binding.accountIvProfile.setOnClickListener {          //changing profile image function
+        binding.accountIvProfile.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
-            activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
+            activityLauncher.launch(photoPickerIntent)  //ActivityResultLauncher
+            //photoPickerIntent.type = "image/*"
+            //activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
         }
+
         getProfileImage()
         getFollowerAndFollowing()
         return fragmentView
+    }
+
+    fun activityResultLauncher(): ActivityResultLauncher<Intent> {
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if(it.resultCode == RESULT_OK && it.data != null) {
+                var imageUri = it.data?.data
+                if (imageUri != null) {
+                    storageRef.putFile(imageUri).continueWithTask {
+                        return@continueWithTask storageRef.downloadUrl
+                    }.addOnSuccessListener {
+                        contentDTO?.imageUrl = it.toString()
+                    }
+                    getProfileImage()
+                }
+            }
+            else {
+                Log.d("ActivityResult", "Something wrong")
+            }
+        }
+        return resultLauncher
     }
 
     fun getFollowerAndFollowing() {
@@ -115,19 +155,19 @@ class UserFragment : Fragment() {
             var followDTO = transaction.get(tsDocFollowing!!).toObject(FollowDTO::class.java)
             if(followDTO == null) {
                 followDTO = FollowDTO()
-                followDTO!!.followingCount = 1
-                followDTO!!.followers[uid!!] = true
+                followDTO.followingCount = 1
+                followDTO.followers[uid!!] = true
 
                 transaction.set(tsDocFollowing,followDTO)
                 return@runTransaction
             }
             if(followDTO.followings.containsKey(uid)) {
                 //remove following third person when the third person already follows me
-                followDTO?.followingCount = followDTO?.followingCount - 1
+                followDTO.followingCount = followDTO.followingCount - 1
             }else {
                 //remove following third person when the third person already follows me
-                followDTO?.followingCount = followDTO?.followingCount + 1
-                followDTO?.followers[uid!!] = true
+                followDTO.followingCount = followDTO.followingCount + 1
+                followDTO.followers[uid!!] = true
             }
             transaction.set(tsDocFollowing,followDTO)
             return@runTransaction
